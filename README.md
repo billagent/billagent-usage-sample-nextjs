@@ -1,2 +1,1 @@
-# billagent-usage-sample-nextjs
-Sample usage application built using next js.
+The BillAgent sample application.

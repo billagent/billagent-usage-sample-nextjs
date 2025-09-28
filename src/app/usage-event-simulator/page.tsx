@@ -1,0 +1,176 @@
+'use client';
+
+import { useState } from 'react';
+import PageStandard from "../../components/PageStandard";
+
+export default function UsageEventSimulator() {
+  const [formData, setFormData] = useState({
+    sku_id: 'demo-sku-123',
+    contract_uuid: 'demo-contract-456',
+    event_time: new Date().toISOString().slice(0, 16), // Format for datetime-local input
+    request_type: 'api_call',
+    count: '1'
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setResult(null);
+
+    try {
+      const response = await fetch('/api/usage-events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          event_time: formData.event_time ? new Date(formData.event_time).toISOString() : new Date().toISOString()
+        }),
+      });
+
+      const data = await response.json();
+      setResult(data);
+    } catch (error) {
+      setResult({
+        error: 'Failed to send event',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  return (
+    <PageStandard>
+      <div className="w-full max-w-4xl">
+        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Usage Event Simulator
+            </h1>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Test BillAgent usage events by sending simulated events through the server-side API
+            </p>
+          </div>
+          
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="sku_id" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  SKU ID *
+                </label>
+                <input
+                  type="text"
+                  id="sku_id"
+                  name="sku_id"
+                  value={formData.sku_id}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="e.g., demo-sku-123"
+                  required
+                />
+                <p className="mt-1 text-xs text-gray-500">SKU ID that matches contract terms</p>
+              </div>
+
+              <div>
+                <label htmlFor="contract_uuid" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Contract UUID *
+                </label>
+                <input
+                  type="text"
+                  id="contract_uuid"
+                  name="contract_uuid"
+                  value={formData.contract_uuid}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="e.g., demo-contract-456"
+                  required
+                />
+                <p className="mt-1 text-xs text-gray-500">Contract UUID associated with this event</p>
+              </div>
+
+              <div>
+                <label htmlFor="request_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Request Type *
+                </label>
+                <input
+                  type="text"
+                  id="request_type"
+                  name="request_type"
+                  value={formData.request_type}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="e.g., api_call, data_transfer, compute_hours"
+                  required
+                />
+                <p className="mt-1 text-xs text-gray-500">Request type for term matching</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="event_time" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Event Time
+                  </label>
+                  <input
+                    type="datetime-local"
+                    id="event_time"
+                    name="event_time"
+                    value={formData.event_time}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Defaults to now if not provided</p>
+                </div>
+
+                <div>
+                  <label htmlFor="count" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Count
+                  </label>
+                  <input
+                    type="text"
+                    id="count"
+                    name="count"
+                    value={formData.count}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    placeholder="1"
+                  />
+                  <p className="mt-1 text-xs text-gray-500">Defaults to "1" if not provided</p>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? 'Sending Event...' : 'Send Usage Event'}
+              </button>
+            </form>
+
+            {result && (
+              <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                  {result.success ? 'Success!' : 'Error'}
+                </h3>
+                <pre className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
+                  {JSON.stringify(result, null, 2)}
+                </pre>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </PageStandard>
+  );
+}
