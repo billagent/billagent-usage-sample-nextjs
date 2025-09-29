@@ -28,7 +28,7 @@ export default function SampleAddendumPage() {
             </p>
           </div>
           <div className="p-6">
-            <ContractText contractText={`Effective {TODAY_PLUS_1_MONTH}, we are pleased to announce a promotional pricing adjustment for BAP-001. The new pricing structure will be: Up to 10,000,000 tokens at 2 cents per token (reduced from 3 cents), 10,000,001 to 25,000,000 tokens at 1 cent per token (reduced from 2 cents), and 25,000,001 tokens and above at 1 cent per token (reduced from 1 cent). This promotional pricing will be effective from {TODAY_PLUS_1_MONTH} through {TODAY_PLUS_2_MONTHS}.`} />
+            <ContractText contractText={`Effective {TODAY_PLUS_1_MONTH}, we are pleased to announce a promotional pricing adjustment for BAP-001. The new pricing structure will be: Up to 10,000,000 widgets at 2 cents per widget (reduced from 3 cents), 10,000,001 to 25,000,000 widgets at 1 cent per widget (reduced from 2 cents), and 25,000,001 widgets and above at 1 cent per widget. This promotional pricing will be effective from {TODAY_PLUS_1_MONTH} through {TODAY_PLUS_2_MONTHS}.`} />
           </div>
         </div>
       </div>

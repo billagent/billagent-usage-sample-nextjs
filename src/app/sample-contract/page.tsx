@@ -53,7 +53,7 @@ Terms for BAP-001:
 Billing Type: Usage Billing
 Description: Usage Fees for Premium widgets
 
-Buyer will be billed based on the number of BP-PREMIUM-01 widgets used per month. The pricing is tiered as follows:
+Buyer will be billed based on the number of BAP-001 widgets used per month. The pricing is tiered as follows:
 
 For usage up to 10 million widgets, the price is 3 cents per token.
 For usage between 10,000,001 and 25 million widgets, the price is 2 cents per token.
