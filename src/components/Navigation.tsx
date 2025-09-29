@@ -26,14 +26,14 @@ const navItems: NavItem[] = [
     icon: '📄'
   },
   {
-    href: '/sample-addendum',
-    label: 'Sample Addendum',
-    icon: '📄'
-  },
-  {
     href: '/usage-event-simulator',
     label: 'Usage Event Simulator',
     icon: '⚡'
+  },
+  {
+    href: '/sample-addendum',
+    label: 'Sample Addendum',
+    icon: '📄'
   }
 ];
 

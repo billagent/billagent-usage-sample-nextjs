@@ -12,7 +12,17 @@ export default function GettingStarted() {
           If you have not already, log into Billagent.ai to create your api key. The API key management page is located in the  
           <span className=" text-yellow-600"> Integrations</span> section under <span className=" text-yellow-600">Outbound Integrations</span> in the side bar menu in the BillAgent dashboard.
           </p>
+          <div className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+            This application will demonstrate the following features:
+            <ol className="list-decimal list-outside pl-6">
+              <li className="pl-2">New Enterprise Customer Setup from the BillAgent Dashboard.</li>
+              <li className="pl-2">Usage Event Simulation sent from a BillAgent customer application (this application).</li>
+              <li className="pl-2">Addendum creation from the BillAgent Dashboard, adding to the original contract in the first step.</li>
+              <li className="pl-2">Usage Event Simulation sent from a BillAgent customer application (this application) <i>after</i> the addendum is added to the contract.</li>
+            </ol>
+          </div>
           <div className="flex gap-4 items-center flex-col sm:flex-row pb-4">
+
             <a
               className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-blue-600 text-white gap-2 hover:bg-blue-700 font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
               href="/sample-contract"
@@ -27,19 +37,6 @@ export default function GettingStarted() {
               /> View Sample Contract
             </a>
 
-          </div>
-          <div className="max-w-2xl pt-15 font-mono text-xs">
-            <ul className="list-outside list-disc pl-4">
-              <li className="mb-2 tracking-[-.01em] pl-2">
-                This full stack application was created using <span className="font-mono text-xs text-yellow-600">npx create-next-app</span>
-              </li>
-              <li className="mb-2 tracking-[-.01em] pl-2">
-                This application is integrated with BillAgent using the BillAgent usage events typescript sdk, published on npmjs.com, click <a className="text-blue-600" href="https://www.npmjs.com/package/@billagent/usage-events">here</a>.
-              </li>
-              <li className="mb-2 tracking-[-.01em] pl-2">
-                BillAgent apis are intended to be integrated into serverside applications and is integrated into this application on server side api routes.
-              </li>
-            </ul>
           </div>
         </div>
     </PageStandard>

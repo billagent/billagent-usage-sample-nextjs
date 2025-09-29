@@ -3,40 +3,32 @@
 import { useState, useEffect } from 'react';
 
 interface ContractTextProps {
-  contractText?: string;
+  contractText: string;
   className?: string;
 }
 
 export default function ContractText({ 
-  contractText = `AGREEMENT
-
-This Agreement is entered into on {TODAY} between the parties.
-
-TERMS AND CONDITIONS
-
-1. Effective Date: This agreement shall be effective as of {TODAY}.
-
-2. Duration: This agreement shall remain in effect until {TODAY_PLUS_30} unless terminated earlier in accordance with the terms herein.
-
-3. Payment Terms: All payments are due within 30 days of {TODAY}.
-
-4. Governing Law: This agreement shall be governed by the laws in effect as of {TODAY}.
-
-IN WITNESS WHEREOF, the parties have executed this agreement on {TODAY}.
-
-_________________________    _________________________
-Party A Signature              Party B Signature
-Date: {TODAY}                  Date: {TODAY}`, 
+  contractText,
   className = ""
 }: ContractTextProps) {
   const [formattedText, setFormattedText] = useState('');
 
   useEffect(() => {
     const formatContractText = () => {
-      const today = new Date();
-      const todayPlus30 = new Date(today);
-      todayPlus30.setDate(today.getDate() + 30);
+      const today = new Date();3
 
+      const todayPlus1Year = new Date(today);
+      todayPlus1Year.setFullYear(today.getFullYear() + 1);
+
+      const todayPluse1Year1Month = new Date(todayPlus1Year);
+      todayPluse1Year1Month.setMonth(todayPlus1Year.getMonth() + 1);
+
+      const todayPlus1Month = new Date(today);
+      todayPlus1Month.setMonth(today.getMonth() + 1);
+
+      const todayPlus2Months = new Date(today);
+      todayPlus2Months.setMonth(today.getMonth() + 2);
+      
       // Format dates
       const todayFormatted = today.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -44,7 +36,24 @@ Date: {TODAY}                  Date: {TODAY}`,
         day: 'numeric'
       });
 
-      const todayPlus30Formatted = todayPlus30.toLocaleDateString('en-US', {
+      const todayPlus1MonthFormatted = todayPlus1Month.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const todayPlus1YearFormatted = todayPlus1Year.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const todayPluse1Year1MonthFormatted = todayPluse1Year1Month.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      const todayPlus2MonthsFormatted = todayPlus2Months.toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -53,7 +62,12 @@ Date: {TODAY}                  Date: {TODAY}`,
       // Replace date placeholders
       let formatted = contractText
         .replace(/{TODAY}/g, todayFormatted)
-        .replace(/{TODAY_PLUS_30}/g, todayPlus30Formatted);
+        .replace(/{TODAY_PLUS_1_MONTH}/g, todayPlus1MonthFormatted)
+        .replace(/{TODAY_PLUS_2_MONTHS}/g, todayPlus2MonthsFormatted)
+        .replace(/{TODAY_PLUS_1_YEAR}/g, todayPlus1YearFormatted)
+        .replace(/{TODAY_PLUS_2_MONTHS}/g, todayPlus2MonthsFormatted)
+        .replace(/{TODAY_PLUS_1_YEAR_1_MONTH}/g, todayPluse1Year1MonthFormatted)
+        ;
 
       setFormattedText(formatted);
     };

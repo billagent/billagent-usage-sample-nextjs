@@ -5,11 +5,9 @@ import PageStandard from "../../components/PageStandard";
 
 export default function UsageEventSimulator() {
   const [formData, setFormData] = useState({
-    sku_id: 'demo-sku-123',
-    contract_uuid: 'demo-contract-456',
+    sku_id: 'BAP-PREMIUM-01',
     event_time: new Date().toISOString().slice(0, 16), // Format for datetime-local input
-    request_type: 'api_call',
-    count: '1'
+    request_type: 'usage_event',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -53,6 +51,18 @@ export default function UsageEventSimulator() {
   return (
     <PageStandard>
       <div className="w-full max-w-4xl">
+      <div className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+          This application will demonstrate the following features:
+          <ol className="list-decimal list-outside pl-6">
+            <li className="pl-2">Cut and Paste the contract uuid into the Contract UUID input field in the Usage Event Simulator. </li>
+            <li className="pl-2">Notice that the SKU ID is populated with the sku id from the contract. If you had changed it, you will need to change the value in the SKU ID field.</li>
+            <li className="pl-2">The time defaults to now. You can change it to any time you want. Same with the count.</li>
+          </ol>
+          <div className="pt-4"><span className="text-green-600">Congratulations!</span>, you have sent in usage events! you can experiment with different pricing models and tiers and see how BillAgent handles them. You can also add and addendum to the contract and see how BillAgent handles events after the addendum has been added.</div>
+        </div>
+        <div className="flex gap-4 items-center flex-col sm:flex-row pb-4">
+          After you create the contract, go to the <a className="text-blue-600" href="/sample-addendum">Sample Addendum</a> step to add an addendum to the contract.
+        </div>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -76,7 +86,7 @@ export default function UsageEventSimulator() {
                   value={formData.sku_id}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., demo-sku-123"
+                  placeholder="<enter the sku id here>"
                   required
                 />
                 <p className="mt-1 text-xs text-gray-500">SKU ID that matches contract terms</p>
@@ -90,10 +100,10 @@ export default function UsageEventSimulator() {
                   type="text"
                   id="contract_uuid"
                   name="contract_uuid"
-                  value={formData.contract_uuid}
+               
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., demo-contract-456"
+                  placeholder="<enter contract uuid here>"
                   required
                 />
                 <p className="mt-1 text-xs text-gray-500">Contract UUID associated with this event</p>
@@ -110,7 +120,7 @@ export default function UsageEventSimulator() {
                   value={formData.request_type}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., api_call, data_transfer, compute_hours"
+                  placeholder="usage_event"
                   required
                 />
                 <p className="mt-1 text-xs text-gray-500">Request type for term matching</p>
@@ -140,7 +150,7 @@ export default function UsageEventSimulator() {
                     type="text"
                     id="count"
                     name="count"
-                    value={formData.count}
+                  
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="1"

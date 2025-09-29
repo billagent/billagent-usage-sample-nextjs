@@ -1,21 +1,87 @@
 import ContractText from "../../components/ContractText";
 import PageStandard from "../../components/PageStandard";
+import Image from "next/image";
 
 export default function SampleContractPage() {
   return (
     <PageStandard>
       <div className="w-full max-w-4xl">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+          Sample Contract
+        </h1>
+        <div className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+          <ol className="list-decimal list-outside pl-6">
+            <li className="pl-2">Log into BillAgent.ai and navigate to the <span className=" text-yellow-600">Add New</span> page under the <span className=" text-yellow-600">Customer</span> section in the side bar menu.</li>
+            <li className="pl-2">Cut and Paste the sample contract into the input area in the AI Chat Interface. If you want to customize the contract before doing so, you can do so in a text editor of your choice.</li>
+            <li className="pl-2">Wait for the AI to read and configure the contract. Once it is completed, it will return with the contract uuid and a link to the contract details page.</li>
+          </ol>
+          <div className="pt-4"><span className="text-green-600">Congratulations!</span>, you have now created a new enterprise customer and a new contract in your BillAgent.ai dashboard! You are now ready to send usage events to BillAgent.ai to simulate usage of the contract.</div>
+        </div>
+        <div className="flex gap-4 items-center flex-col sm:flex-row pb-4">
+          After you create the contract, go to the <a className="text-blue-600" href="/usage-event-simulator">Usage Event Simulator</a> to send usage events to the contract.
+        </div>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Sample Contract
-            </h1>
+            
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              This contract demonstrates automatic date updating functionality
+              This is a sample contract for a company like yours that is selling to large enterprise customers.
             </p>
           </div>
           <div className="p-6">
-            <ContractText />
+            <ContractText contractText={`Contract: Sample Contract.
+
+Description:
+A premium subscription plan for The BAP company's product.
+
+Effective Date: {TODAY}
+
+This Periodic Billing Contract ("Agreement") is entered into as of the Effective Date by and between The BAP company (the "Seller") and Large Enterprise Co., cust-id LARGE-001 (the "Buyer").
+
+Governing Law:
+This Agreement shall be governed by and construed in accordance with the laws of the State of California, United States.
+
+Term and Termination:
+This Agreement shall remain in effect from the Effective Date until {TODAY_PLUS_1_YEAR}, unless terminated earlier by either party with 30 days written notice. Upon termination, all outstanding fees shall become immediately due and payable.
+
+Payment Terms:
+Invoices are due within 15 calendar days of issuance. Late payments may incur a monthly interest charge of 1.5% or the maximum permitted by law, whichever is lower. Accepted payment methods include ACH transfer, wire transfer, or other mutually agreed-upon methods.
+
+Billing Cycle:
+Invoices will be issued monthly on the 15th day of the month.
+
+Terms for BAP-001:
+Billing Type: Usage Billing
+Description: Usage Fees for Premium widgets
+
+Buyer will be billed based on the number of BP-PREMIUM-01 widgets used per month. The pricing is tiered as follows:
+
+For usage up to 10 million widgets, the price is 3 cents per token.
+For usage between 10,000,001 and 25 million widgets, the price is 2 cents per token.
+For usage above 25 million widgets, the price is 1 cent per token.
+This pricing is effective from {TODAY} to {TODAY_PLUS_1_YEAR}.
+
+Terms for BAP-002:
+Billing Type: Seats
+Description: Basic AI Usage Seat License
+
+Buyer will be billed for one seat at 18 dollars per month starting on the 14th of the month. This applies to one Seat License for Contract v1.
+
+This pricing is effective from {TODAY} to {TODAY_PLUS_1_YEAR}. Contract status is active.
+
+Service Level Commitments:
+Seller shall maintain 99.9 percent uptime for the Premium Subscription service, excluding scheduled maintenance. If uptime falls below this threshold, Buyer may be eligible for service credits as defined in the SLA appendix.
+
+Data Usage and Privacy:
+Seller agrees to handle Buyer's data in compliance with applicable data protection laws. Buyer retains ownership of all data processed through the service. Seller shall not disclose or sell Buyer's data to third parties without prior written consent.
+
+Support and Maintenance:
+Seller will provide email-based support during business hours, from 9:00 AM to 6:00 PM Central Standard Time, Monday through Friday. Critical issues will receive a response within 4 hours. Feature updates and bug fixes will be deployed periodically with advance notice.
+
+Confidentiality:
+Both parties agree to maintain the confidentiality of proprietary and sensitive information exchanged under this Agreement. This obligation shall survive termination of the Agreement for a period of two years.
+
+Amendments:
+Any amendments or modifications to this Agreement must be made in writing and signed by authorized representatives of both parties.`} />
           </div>
         </div>
       </div>
