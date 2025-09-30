@@ -1,4 +1,4 @@
-# BillAgent Integration Setup
+# BillAgent Sample Application Setup
 
 This application integrates with BillAgent using the `@billagent/usage-events` node typescript SDK integrated with server side routes in this application. We have SDKs and other sample applications written in Python, Java, and Go available on our Github page. 
 
