@@ -33,40 +33,60 @@ export default function ContractText({
       const todayPlus2Months = new Date(today);
       todayPlus2Months.setUTCMonth(today.getUTCMonth() + 2);
       
-      // Format dates in GMT/UTC
-      const todayFormatted = today.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'UTC'
-      });
+      // Helper function to add ordinal suffix to day
+      const addOrdinalSuffix = (day: number): string => {
+        const j = day % 10;
+        const k = day % 100;
+        if (j === 1 && k !== 11) {
+          return day + "st";
+        }
+        if (j === 2 && k !== 12) {
+          return day + "nd";
+        }
+        if (j === 3 && k !== 13) {
+          return day + "rd";
+        }
+        return day + "th";
+      };
 
-      const todayPlus1MonthFormatted = todayPlus1Month.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'UTC'
-      });
+      // Format dates in GMT/UTC with ordinal suffixes
+      const todayFormatted = (() => {
+        const year = today.getUTCFullYear();
+        const month = today.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = today.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
 
-      const todayPlus1YearFormatted = todayPlus1Year.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'UTC'
-      });
+      const todayPlus1MonthFormatted = (() => {
+        const year = todayPlus1Month.getUTCFullYear();
+        const month = todayPlus1Month.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = todayPlus1Month.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
 
-      const todayPluse1Year1MonthFormatted = todayPluse1Year1Month.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'UTC'
-      });
-      const todayPlus2MonthsFormatted = todayPlus2Months.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'UTC'
-      });
+      const todayPlus1YearFormatted = (() => {
+        const year = todayPlus1Year.getUTCFullYear();
+        const month = todayPlus1Year.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = todayPlus1Year.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
+
+      const todayPluse1Year1MonthFormatted = (() => {
+        const year = todayPluse1Year1Month.getUTCFullYear();
+        const month = todayPluse1Year1Month.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = todayPluse1Year1Month.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
+
+      const todayPlus2MonthsFormatted = (() => {
+        const year = todayPlus2Months.getUTCFullYear();
+        const month = todayPlus2Months.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = todayPlus2Months.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
+
+      // Format today's day of the month with ordinal suffix
+      const todaysDayOfTheMonthFormatted = addOrdinalSuffix(today.getUTCDate());
 
       // Replace date placeholders
       let formatted = contractText
@@ -74,8 +94,8 @@ export default function ContractText({
         .replace(/{TODAY_PLUS_1_MONTH}/g, todayPlus1MonthFormatted)
         .replace(/{TODAY_PLUS_2_MONTHS}/g, todayPlus2MonthsFormatted)
         .replace(/{TODAY_PLUS_1_YEAR}/g, todayPlus1YearFormatted)
-        .replace(/{TODAY_PLUS_2_MONTHS}/g, todayPlus2MonthsFormatted)
         .replace(/{TODAY_PLUS_1_YEAR_1_MONTH}/g, todayPluse1Year1MonthFormatted)
+        .replace(/{TODAYS_DAY_OF_THE_MONTH}/g, todaysDayOfTheMonthFormatted)
         ;
 
       setFormattedText(formatted);
