@@ -11,6 +11,7 @@ export default function UsageEventSimulator() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
+  const [showJsonView, setShowJsonView] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -170,12 +171,75 @@ export default function UsageEventSimulator() {
 
             {result && (
               <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                  {result.success ? 'Success!' : 'Error'}
-                </h3>
-                <pre className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
-                  {JSON.stringify(result, null, 2)}
-                </pre>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                    {result.success ? 'Success!' : 'Error'}
+                  </h3>
+                  {result.success && result.data?.term_matches && (
+                    <button
+                      onClick={() => setShowJsonView(!showJsonView)}
+                      className="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                    >
+                      {showJsonView ? 'Table View' : 'JSON View'}
+                    </button>
+                  )}
+                </div>
+                {result.success && result.data?.term_matches && !showJsonView ? (
+                  <div className="space-y-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      {result.message}
+                    </p>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg">
+                        <thead className="bg-gray-50 dark:bg-gray-700">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              SKU ID
+                            </th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Description
+                            </th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Price
+                            </th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                              Count
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+                          {result.data.term_matches.map((match: any, index: number) => (
+                            <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">
+                                {match.sku_id}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                {match.description}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900 dark:text-white font-medium">
+                                ${(match.price / 100).toFixed(2)}
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                                {match.count}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      Processed at: {new Date(result.timestamp).toLocaleString()}
+                    </div>
+                  </div>
+                ) : result.success && result.data?.term_matches && showJsonView ? (
+                  <pre className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
+                    {JSON.stringify(result, null, 2)}
+                  </pre>
+                ) : (
+                  <pre className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
+                    {JSON.stringify(result, null, 2)}
+                  </pre>
+                )}
               </div>
             )}
           </div>

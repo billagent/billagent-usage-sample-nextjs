@@ -1,7 +1,13 @@
 import ContractText from "../../components/ContractText";
 import PageStandard from "../../components/PageStandard";
+import fs from 'fs';
+import path from 'path';
 
 export default function SampleAddendumPage() {
+  // Read the addendum markdown file
+  const addendumPath = path.join(process.cwd(), 'src', 'component-data', 'Addendum.md');
+  const addendumText = fs.readFileSync(addendumPath, 'utf8');
+
   return (
     <PageStandard>
       <div className="w-full max-w-4xl">
@@ -28,7 +34,7 @@ export default function SampleAddendumPage() {
             </p>
           </div>
           <div className="p-6">
-            <ContractText contractText={`Effective {TODAY_PLUS_1_MONTH}, we are pleased to announce a promotional pricing adjustment for BAP-001. The new pricing structure will be: Up to 10,000,000 widgets at 2 cents per widget (reduced from 3 cents), 10,000,001 to 25,000,000 widgets at 1 cent per widget (reduced from 2 cents), and 25,000,001 widgets and above at 1 cent per widget. This promotional pricing will be effective from {TODAY_PLUS_1_MONTH} through {TODAY_PLUS_2_MONTHS}.`} />
+            <ContractText contractText={addendumText} />
           </div>
         </div>
       </div>
