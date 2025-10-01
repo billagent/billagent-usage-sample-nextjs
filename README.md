@@ -1,10 +1,10 @@
-# BillAgent Integration Setup
+# BillAgent Sample Application Setup
 
 This application integrates with BillAgent using the `@billagent/usage-events` node typescript SDK integrated with server side routes in this application. We have SDKs and other sample applications written in Python, Java, and Go available on our Github page. 
 
 ## Environment Variables
 
-Create a `.env.local` file in the root directory with the following variables:
+Create a `.env` file in the root directory with the following variables:
 
 ```bash
 # BillAgent Configuration
@@ -13,11 +13,6 @@ BILLAGENT_API_KEY=your_api_key_here
 BILLAGENT_BASE_URL=https://us-public.billagent.io
 ```
 
-## Setup Steps
-
-1. **Get your API key** from [billagent.ai](https://billagent.ai)
-2. **Add the API key to `.env`** file with your API key
-
 ## Requirements
 
 1. **Node.js** - Version 18.17 or later (recommended: 20.x LTS)
@@ -25,15 +20,18 @@ BILLAGENT_BASE_URL=https://us-public.billagent.io
 3. **BillAgent API Key** - Get your free API key from [billagent.ai](https://billagent.ai)
 4. **Internet Connection** - Required for BillAgent API communication
 
-### Steps to use this application
+### Steps to configure and run this application locally
 
 1. **Clone the repository** (if not already done):
    ```bash
    git clone <repository-url>
    cd billagent-usage-sample-nextjs
    ```
+2. **Get your API key** from [billagent.ai](https://billagent.ai)
 
-2. **Install dependencies**:
+3. **Add the API key to `.env`** file with your API key
+   
+4. **Install dependencies**:
    ```bash
    npm install
    # or
@@ -42,15 +40,7 @@ BILLAGENT_BASE_URL=https://us-public.billagent.io
    pnpm install
    ```
 
-3. **Create environment file**:
-   ```bash
-   cp .env.example .env.local
-   # Then edit .env.local with your API key
-   ```
-
-## Running the Application
-
-1. **Start the development server** by running:
+5. **Start the development server** by running:
    ```bash
    npm run dev
    # or
@@ -59,7 +49,7 @@ BILLAGENT_BASE_URL=https://us-public.billagent.io
    pnpm dev
    ```
 
-2. **Open your web browser** and navigate to:
+6. **Open your web browser** and navigate to:
    ```
    http://localhost:3000
    ```
