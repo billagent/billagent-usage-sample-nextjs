@@ -32,6 +32,12 @@ export default function ContractText({
 
       const todayPlus2Months = new Date(today);
       todayPlus2Months.setUTCMonth(today.getUTCMonth() + 2);
+
+      const todayPlus10Days = new Date(today);
+      todayPlus10Days.setUTCDate(today.getUTCDate() + 10);
+
+      const todayPlus15Days = new Date(today);
+      todayPlus15Days.setUTCDate(today.getUTCDate() + 15);
       
       // Helper function to add ordinal suffix to day
       const addOrdinalSuffix = (day: number): string => {
@@ -88,6 +94,19 @@ export default function ContractText({
       // Format today's day of the month with ordinal suffix
       const todaysDayOfTheMonthFormatted = addOrdinalSuffix(today.getUTCDate());
 
+      const todayPlus10DaysFormatted = (() => {
+        const year = todayPlus10Days.getUTCFullYear();
+        const month = todayPlus10Days.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = todayPlus10Days.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
+
+      const todayPlus15DaysFormatted = (() => {
+        const year = todayPlus15Days.getUTCFullYear();
+        const month = todayPlus15Days.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+        const day = todayPlus15Days.getUTCDate();
+        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
+      })();
       // Replace date placeholders
       let formatted = contractText
         .replace(/{TODAY}/g, todayFormatted)
@@ -96,6 +115,8 @@ export default function ContractText({
         .replace(/{TODAY_PLUS_1_YEAR}/g, todayPlus1YearFormatted)
         .replace(/{TODAY_PLUS_1_YEAR_1_MONTH}/g, todayPluse1Year1MonthFormatted)
         .replace(/{TODAYS_DAY_OF_THE_MONTH}/g, todaysDayOfTheMonthFormatted)
+        .replace(/{TODAY_PLUS_10_DAYS}/g, todayPlus10DaysFormatted)
+        .replace(/{TODAY_PLUS_15_DAYS}/g, todayPlus15DaysFormatted)
         ;
 
       setFormattedText(formatted);

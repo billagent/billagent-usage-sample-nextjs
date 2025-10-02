@@ -5,7 +5,7 @@ import path from 'path';
 
 export default function SampleAddendumPage() {
   // Read the addendum markdown file
-  const addendumPath = path.join(process.cwd(), 'src', 'component-data', 'Addendum.md');
+  const addendumPath = path.join(process.cwd(), 'src', 'component-data', 'Addendum2.md');
   const addendumText = fs.readFileSync(addendumPath, 'utf8');
 
   return (

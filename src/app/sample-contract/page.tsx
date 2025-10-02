@@ -6,7 +6,7 @@ import path from 'path';
 
 export default function SampleContractPage() {
   // Read the contract markdown file
-  const contractPath = path.join(process.cwd(), 'src', 'component-data', 'Contract.md');
+  const contractPath = path.join(process.cwd(), 'src', 'component-data', 'Contract2.md');
   const contractText = fs.readFileSync(contractPath, 'utf8');
 
   return (

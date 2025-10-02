@@ -3,7 +3,7 @@ import * as UsageEvents from '@billagent/usage-events';
 
 // Configure the BillAgent API client - you can set these using the .env file
 const configuration = new UsageEvents.Configuration({
-  basePath: process.env.BILLAGENT_BASE_URL || 'https://api.billagent.ai',
+  basePath: process.env.BILLAGENT_BASE_URL || 'https://us-public.billagent.io',
   apiKey: process.env.BILLAGENT_API_KEY || '',
 });
 

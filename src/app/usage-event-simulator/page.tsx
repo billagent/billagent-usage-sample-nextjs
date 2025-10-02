@@ -5,7 +5,7 @@ import PageStandard from "../../components/PageStandard";
 
 export default function UsageEventSimulator() {
   const [formData, setFormData] = useState({
-    sku_id: 'BAP-PREMIUM-01',
+    sku_id: 'US-SESSION-001',
     event_time: new Date().toISOString().slice(0, 16), // Format for datetime-local input
     request_type: 'usage_event',
   });
@@ -31,11 +31,32 @@ export default function UsageEventSimulator() {
       });
 
       const data = await response.json();
-      setResult(data);
+      
+      // Check if the response is not ok (status 200-299)
+      if (!response.ok) {
+        // Preserve the full error payload from the API
+        setResult({
+          success: false,
+          error: data.error || 'Request failed',
+          details: data.details || data.message || 'No additional details available',
+          status: response.status,
+          statusText: response.statusText,
+          fullError: data // Preserve the complete error object
+        });
+      } else {
+        setResult(data);
+      }
     } catch (error) {
+      // This catches network errors, JSON parsing errors, etc.
       setResult({
-        error: 'Failed to send event',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        success: false,
+        error: 'Network or parsing error',
+        details: error instanceof Error ? error.message : 'Unknown error',
+        fullError: {
+          name: error instanceof Error ? error.name : 'UnknownError',
+          message: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined
+        }
       });
     } finally {
       setIsLoading(false);
@@ -236,9 +257,47 @@ export default function UsageEventSimulator() {
                     {JSON.stringify(result, null, 2)}
                   </pre>
                 ) : (
-                  <pre className="text-sm text-gray-600 dark:text-gray-300 whitespace-pre-wrap">
-                    {JSON.stringify(result, null, 2)}
-                  </pre>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                      <div className="flex items-center mb-2">
+                        <span className="text-red-600 dark:text-red-400 font-medium">
+                          {result.error || 'Error'}
+                        </span>
+                        {result.status && (
+                          <span className="ml-2 px-2 py-1 text-xs bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-300 rounded">
+                            {result.status} {result.statusText}
+                          </span>
+                        )}
+                      </div>
+                      {result.details && (
+                        <p className="text-sm text-red-600 dark:text-red-400 mb-2">
+                          {result.details}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {result.fullError && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Full Error Details:
+                        </h4>
+                        <pre className="text-xs text-gray-600 dark:text-gray-300 whitespace-pre-wrap bg-gray-100 dark:bg-gray-800 p-3 rounded border overflow-auto max-h-96">
+                          {JSON.stringify(result.fullError, null, 2)}
+                        </pre>
+                      </div>
+                    )}
+                    
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      <details className="cursor-pointer">
+                        <summary className="hover:text-gray-700 dark:hover:text-gray-300">
+                          Show complete response
+                        </summary>
+                        <pre className="mt-2 text-xs text-gray-600 dark:text-gray-300 whitespace-pre-wrap bg-gray-100 dark:bg-gray-800 p-3 rounded border overflow-auto max-h-96">
+                          {JSON.stringify(result, null, 2)}
+                        </pre>
+                      </details>
+                    </div>
+                  </div>
                 )}
               </div>
             )}
