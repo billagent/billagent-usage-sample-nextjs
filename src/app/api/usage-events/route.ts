@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     
     // Handle specific API errors
     if (error && typeof error === 'object' && 'response' in error) {
-      const axiosError = error as any;
+      const axiosError = error as { response?: { status?: number; data?: { message?: string } }; message?: string };
       const status = axiosError.response?.status;
       
       // Handle 403 Unauthorized specifically

@@ -3,41 +3,41 @@
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { addDays, addMonths, addYears } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 interface ContractTextProps {
   contractText: string;
   className?: string;
+  timezone?: string;
+  buyer?: string;
+  seller?: string;
+  onFormattedTextChange?: (formattedText: string) => void;
 }
 
 export default function ContractText({ 
   contractText,
-  className = ""
+  className = "",
+  timezone = 'Etc/UTC',
+  buyer = '',
+  seller = '',
+  onFormattedTextChange
 }: ContractTextProps) {
   const [formattedText, setFormattedText] = useState('');
 
   useEffect(() => {
     const formatContractText = () => {
-      // Create dates in UTC/GMT using current UTC time
+      // Get current date/time in UTC
       const now = new Date();
-      const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
-
-      const todayPlus1Year = new Date(today);
-      todayPlus1Year.setUTCFullYear(today.getUTCFullYear() + 1);
-
-      const todayPluse1Year1Month = new Date(todayPlus1Year);
-      todayPluse1Year1Month.setUTCMonth(todayPlus1Year.getUTCMonth() + 1);
-
-      const todayPlus1Month = new Date(today);
-      todayPlus1Month.setUTCMonth(today.getUTCMonth() + 1);
-
-      const todayPlus2Months = new Date(today);
-      todayPlus2Months.setUTCMonth(today.getUTCMonth() + 2);
-
-      const todayPlus10Days = new Date(today);
-      todayPlus10Days.setUTCDate(today.getUTCDate() + 10);
-
-      const todayPlus15Days = new Date(today);
-      todayPlus15Days.setUTCDate(today.getUTCDate() + 15);
+      
+      // Calculate future dates (these are Date objects representing the moment in time)
+      const todayPlus1Month = addMonths(now, 1);
+      const todayPlus2Months = addMonths(now, 2);
+      const todayPlus10Days = addDays(now, 10);
+      const todayPlus15Days = addDays(now, 15);
+      const todayPlus1Year = addYears(now, 1);
+      const todayPlus1YearMinusOneDay = addDays(todayPlus1Year, -1);
+      const todayPlus1Year1Month = addMonths(todayPlus1Year, 1);
       
       // Helper function to add ordinal suffix to day
       const addOrdinalSuffix = (day: number): string => {
@@ -55,71 +55,45 @@ export default function ContractText({
         return day + "th";
       };
 
-      // Format dates in GMT/UTC with ordinal suffixes
-      const todayFormatted = (() => {
-        const year = today.getUTCFullYear();
-        const month = today.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = today.getUTCDate();
+      // Helper to format a date with ordinal suffix in the selected timezone
+      const formatDateWithOrdinal = (date: Date) => {
+        const month = formatInTimeZone(date, timezone, 'MMMM');
+        const day = parseInt(formatInTimeZone(date, timezone, 'd'));
+        const year = parseInt(formatInTimeZone(date, timezone, 'yyyy'));
         return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
+      };
 
-      const todayPlus1MonthFormatted = (() => {
-        const year = todayPlus1Month.getUTCFullYear();
-        const month = todayPlus1Month.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = todayPlus1Month.getUTCDate();
-        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
-
-      const todayPlus1YearFormatted = (() => {
-        const year = todayPlus1Year.getUTCFullYear();
-        const month = todayPlus1Year.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = todayPlus1Year.getUTCDate();
-        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
-
-      const todayPluse1Year1MonthFormatted = (() => {
-        const year = todayPluse1Year1Month.getUTCFullYear();
-        const month = todayPluse1Year1Month.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = todayPluse1Year1Month.getUTCDate();
-        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
-
-      const todayPlus2MonthsFormatted = (() => {
-        const year = todayPlus2Months.getUTCFullYear();
-        const month = todayPlus2Months.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = todayPlus2Months.getUTCDate();
-        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
+      // Format dates in the selected timezone with ordinal suffixes
+      const todayFormatted = formatDateWithOrdinal(now);
+      const todayPlus1MonthFormatted = formatDateWithOrdinal(todayPlus1Month);
+      const todayPlus2MonthsFormatted = formatDateWithOrdinal(todayPlus2Months);
+      const todayPlus10DaysFormatted = formatDateWithOrdinal(todayPlus10Days);
+      const todayPlus15DaysFormatted = formatDateWithOrdinal(todayPlus15Days);
+      const todayPlus1YearFormatted = formatDateWithOrdinal(todayPlus1Year);
+      const todayPlus1YearMinusOneDayFormatted = formatDateWithOrdinal(todayPlus1YearMinusOneDay);
+      const todayPluse1Year1MonthFormatted = formatDateWithOrdinal(todayPlus1Year1Month);
 
       // Format today's day of the month with ordinal suffix
-      const todaysDayOfTheMonthFormatted = addOrdinalSuffix(today.getUTCDate());
-
-      const todayPlus10DaysFormatted = (() => {
-        const year = todayPlus10Days.getUTCFullYear();
-        const month = todayPlus10Days.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = todayPlus10Days.getUTCDate();
-        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
-
-      const todayPlus15DaysFormatted = (() => {
-        const year = todayPlus15Days.getUTCFullYear();
-        const month = todayPlus15Days.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
-        const day = todayPlus15Days.getUTCDate();
-        return `${month} ${addOrdinalSuffix(day)}, ${year}`;
-      })();
+      const todaysDayOfTheMonthFormatted = addOrdinalSuffix(parseInt(formatInTimeZone(now, timezone, 'd')));
       // Replace date placeholders
-      let formatted = contractText
-        .replace(/{TODAY}/g, todayFormatted)
-        .replace(/{TODAY_PLUS_1_MONTH}/g, todayPlus1MonthFormatted)
-        .replace(/{TODAY_PLUS_2_MONTHS}/g, todayPlus2MonthsFormatted)
-        .replace(/{TODAY_PLUS_1_YEAR}/g, todayPlus1YearFormatted)
-        .replace(/{TODAY_PLUS_1_YEAR_1_MONTH}/g, todayPluse1Year1MonthFormatted)
-        .replace(/{TODAYS_DAY_OF_THE_MONTH}/g, todaysDayOfTheMonthFormatted)
-        .replace(/{TODAY_PLUS_10_DAYS}/g, todayPlus10DaysFormatted)
-        .replace(/{TODAY_PLUS_15_DAYS}/g, todayPlus15DaysFormatted)
+      const formatted = contractText
+        .replace(/\$\{TODAY\}/g, todayFormatted)
+        .replace(/\$\{TODAY_PLUS_1_MONTH\}/g, todayPlus1MonthFormatted)
+        .replace(/\$\{TODAY_PLUS_2_MONTHS\}/g, todayPlus2MonthsFormatted)
+        .replace(/\$\{TODAY_PLUS_1_YEAR\}/g, todayPlus1YearFormatted)
+        .replace(/\$\{TODAY_PLUS_1_YEAR_MINUS_ONE_DAY\}/g, todayPlus1YearMinusOneDayFormatted)
+        .replace(/\$\{TODAY_PLUS_1_YEAR_1_MONTH\}/g, todayPluse1Year1MonthFormatted)
+        .replace(/\$\{TODAYS_DAY_OF_THE_MONTH\}/g, todaysDayOfTheMonthFormatted)
+        .replace(/\$\{TODAY_PLUS_10_DAYS\}/g, todayPlus10DaysFormatted)
+        .replace(/\$\{TODAY_PLUS_15_DAYS\}/g, todayPlus15DaysFormatted)
+        .replace(/\$\{BUYER\}/g, buyer)
+        .replace(/\$\{SELLER\}/g, seller)
         ;
 
       setFormattedText(formatted);
+      if (onFormattedTextChange) {
+        onFormattedTextChange(formatted);
+      }
     };
 
     formatContractText();
@@ -128,7 +102,7 @@ export default function ContractText({
     const interval = setInterval(formatContractText, 60000);
     
     return () => clearInterval(interval);
-  }, [contractText]);
+  }, [contractText, timezone, buyer, seller]);
 
   return (
     <div className={`contract-text ${className}`}>
@@ -219,6 +193,7 @@ export default function ContractText({
               </blockquote>
             ),
             // Custom styling for code blocks to maintain the monospace look
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             code: ({ className, children, ...props }: any) => {
               const isInline = !className?.includes('language-');
               return isInline ? (

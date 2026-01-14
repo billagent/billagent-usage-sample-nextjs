@@ -1,6 +1,6 @@
 # Sample Addendum
 
-Effective {TODAY_PLUS_1_MONTH}, we are pleased to announce a **promotional pricing adjustment** for BAP-001. 
+Effective ${TODAY_PLUS_1_MONTH}, we are pleased to announce a **promotional pricing adjustment** for BAP-001. 
 
 ## New Pricing Structure
 
@@ -12,7 +12,7 @@ The new pricing structure will be:
 
 ## Effective Period
 
-This promotional pricing will be effective from **{TODAY_PLUS_1_MONTH}** through **{TODAY_PLUS_2_MONTHS}**.
+This promotional pricing will be effective from **${TODAY_PLUS_1_MONTH}** through **${TODAY_PLUS_2_MONTHS}**.
 
 ## Terms
 

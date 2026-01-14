@@ -1,17 +1,17 @@
 # Contract: Sample Contract
 
 ## Description
-A **premium subscription plan** for The BAP company's product.
+A **Custom sessions plan** for ${BUYER} Inc.
 
-**Effective Date:** {TODAY}
+**Effective Date:** ${TODAY}
 
-This Periodic Billing Contract ("Agreement") is entered into as of the Effective Date by and between The "BAP company" (the "Seller") and "Large Enterprise Co.", cust-id `LARGE-001` (the "Buyer").
+This Periodic Billing Contract ("Agreement") is entered into as of the Effective Date by and between "${SELLER}" (the "Seller") and "${BUYER}", cust-id ${BUYER}-001, (the "Buyer").
 
 ## Governing Law
 This Agreement shall be governed by and construed in accordance with the laws of the State of California, United States.
 
 ## Term and Termination
-This Agreement shall remain in effect from the Effective Date until **{TODAY_PLUS_1_YEAR}**, unless terminated earlier by either party with 30 days written notice. Upon termination, all outstanding fees shall become immediately due and payable.
+This Agreement shall remain in effect from the Effective Date until **${TODAY_PLUS_1_YEAR}**, unless terminated earlier by either party with 30 days written notice. Upon termination, all outstanding fees shall become immediately due and payable.
 
 ## Payment Terms
 - Invoices are due within **15 calendar days** of issuance
@@ -24,27 +24,41 @@ This Agreement shall remain in effect from the Effective Date until **{TODAY_PLU
 ## Billing Cycle
 Invoices will be issued monthly on the ${TODAYS_DAY_OF_THE_MONTH} day of the month.
 
-## Terms for BAP-001
+## Terms for US-FLOW-001
 - **Billing Type:** Usage Billing
-- **Description:** Usage Fees for Premium widgets
+- **Description:** Compute Hours
 
-Buyer will be billed based on the number of BAP-001 widgets used per month. The pricing is tiered as follows:
+The customer agrees to purchase sessions under the following tiered pricing model:
 
-| Usage Range | Price per Token |
-|-------------|-----------------|
-| Up to 10 million widgets | 3 cents |
-| 10,000,001 - 25 million widgets | 2 cents |
-| Above 25 million widgets | 1 cent |
+| Tier | Hour Range   | Price per Hour | SKU ID         |
+|------|------------------|-------------------|----------------|
+| 1    | 1 – 8760          | $0.13            | US-FLOW-001 |
+| 2    | 8761 – 43800       | $0.08            | US-FLOW-001 |
+| 3    | 43801 and above   | $0.07            | US-FLOW-001 |
 
-> **Note:** This pricing is effective from {TODAY} to {TODAY_PLUS_1_YEAR}.
+> **Note:** This pricing is effective from ${TODAY} to ${TODAY_PLUS_1_YEAR_MINUS_ONE_DAY}.
 
-## Terms for BAP-002
+## Terms for US-FLEET-001
 - **Billing Type:** Seats
-- **Description:** Basic AI Usage Seat License
+- **Description:** Flow Seats 
 
-Buyer will be billed for one seat at **$18 per month** starting on the 14th of the month. This applies to one Seat License for Contract v1.
+Buyer will be billed for 25 seats at **$25 per month** starting on the ${TODAYS_DAY_OF_THE_MONTH} of the month. This applies to one Seat License for Contract v1.
 
-This pricing is effective from {TODAY} to {TODAY_PLUS_1_YEAR}. Contract status is **active**.
+This pricing is effective from ${TODAY} to ${TODAY_PLUS_1_YEAR_MINUS_ONE_DAY}. Contract status is **active**.
+
+## Terms for US-LAKE-001
+- **Billing Type:** Usage Billing
+- **Description:** Usage TiB Scan
+
+The customer agrees to purchase sessions under the following tiered pricing model:
+
+| Tier | Scan Range   | Price per TiB | SKU ID         |
+|------|------------------|-------------------|----------------|
+| 1    | 0-1          | $0.00            | US-LAKE-001 |
+| 2    | 2-50       | $10.00            | US-LAKE-001 |
+| 3    | 51 and above   | $8.0            | US-LAKE-001 |
+
+> **Note:** This pricing is effective from ${TODAY} to ${TODAY_PLUS_1_YEAR_MINUS_ONE_DAY}.
 
 ## Service Level Commitments
 Seller shall maintain **99.9% uptime** for the Premium Subscription service, excluding scheduled maintenance. If uptime falls below this threshold, Buyer may be eligible for service credits as defined in the SLA appendix.

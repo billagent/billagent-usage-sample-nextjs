@@ -1,6 +1,7 @@
-import ContractText from "../../components/ContractText";
+import ContractWithTimezone from "../../components/ContractWithTimezone";
+import CopyButton from "../../components/CopyButton";
 import PageStandard from "../../components/PageStandard";
-import Image from "next/image";
+import ContractHeader from "./ContractHeader";
 import fs from 'fs';
 import path from 'path';
 
@@ -27,14 +28,12 @@ export default function SampleContractPage() {
           After you create the contract, go to the <a className="text-blue-600" href="/usage-event-simulator">Usage Event Simulator</a> to send usage events to the contract.
         </div>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              This is a sample contract for a company like yours that is selling to large enterprise customers.
-            </p>
-          </div>
+          <ContractHeader 
+            description="This is a sample contract for a company like yours that is selling to large enterprise customers."
+            contractText={contractText}
+          />
           <div className="p-6">
-            <ContractText contractText={contractText} />
+            <ContractWithTimezone contractText={contractText} />
           </div>
         </div>
       </div>

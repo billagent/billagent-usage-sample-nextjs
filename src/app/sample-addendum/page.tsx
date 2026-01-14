@@ -1,5 +1,7 @@
 import ContractText from "../../components/ContractText";
+import CopyButton from "../../components/CopyButton";
 import PageStandard from "../../components/PageStandard";
+import AddendumHeader from "./AddendumHeader";
 import fs from 'fs';
 import path from 'path';
 
@@ -25,14 +27,10 @@ export default function SampleAddendumPage() {
            Go backto the <a className="text-blue-600" href="/usage-event-simulator">Usage Event Simulator</a> to send usage events to the appended contract.
         </div>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Sample Addendum
-            </h2>
-            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              This addendum adds new billing terms to the existing contract.
-            </p>
-          </div>
+          <AddendumHeader 
+            description="This addendum adds new billing terms to the existing contract."
+            addendumText={addendumText}
+          />
           <div className="p-6">
             <ContractText contractText={addendumText} />
           </div>

@@ -10,7 +10,25 @@ export default function UsageEventSimulator() {
     request_type: 'usage_event',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{
+    success?: boolean;
+    error?: string;
+    details?: string;
+    status?: number;
+    statusText?: string;
+    fullError?: Record<string, unknown>;
+    data?: {
+      term_matches?: Array<{
+        sku_id: string;
+        description: string;
+        price: number;
+        count: number;
+      }>;
+      term_match_errors?: unknown[];
+    };
+    message?: string;
+    timestamp?: string;
+  } | null>(null);
   const [showJsonView, setShowJsonView] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -177,7 +195,7 @@ export default function UsageEventSimulator() {
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="1"
                   />
-                  <p className="mt-1 text-xs text-gray-500">Defaults to "1" if not provided</p>
+                  <p className="mt-1 text-xs text-gray-500">Defaults to &quot;1&quot; if not provided</p>
                 </div>
               </div>
 
@@ -229,7 +247,12 @@ export default function UsageEventSimulator() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
-                          {result.data.term_matches.map((match: any, index: number) => (
+                          {result.data.term_matches.map((match: {
+                            sku_id: string;
+                            description: string;
+                            price: number;
+                            count: number;
+                          }, index: number) => (
                             <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                               <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">
                                 {match.sku_id}
@@ -249,7 +272,7 @@ export default function UsageEventSimulator() {
                       </table>
                     </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">
-                      Processed at: {new Date(result.timestamp).toLocaleString()}
+                      Processed at: {result.timestamp ? new Date(result.timestamp).toLocaleString() : 'Unknown'}
                     </div>
                   </div>
                 ) : result.success && result.data?.term_matches && showJsonView ? (
