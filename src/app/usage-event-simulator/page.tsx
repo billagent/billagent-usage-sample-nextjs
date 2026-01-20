@@ -261,10 +261,10 @@ export default function UsageEventSimulator() {
                                 {match.description}
                               </td>
                               <td className="px-4 py-3 text-sm text-gray-900 dark:text-white font-medium">
-                                ${(match.price / 100).toFixed(2)}
+                                ${((match.price ?? 0) / 100).toFixed(2)}
                               </td>
                               <td className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                                {match.count}
+                                {match.count ?? 0}
                               </td>
                             </tr>
                           ))}
