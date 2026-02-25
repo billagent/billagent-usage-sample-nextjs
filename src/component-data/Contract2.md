@@ -24,7 +24,7 @@ This Agreement shall remain in effect from the Effective Date until **${TODAY_PL
 ## Billing Cycle
 Invoices will be issued monthly on the ${TODAYS_DAY_OF_THE_MONTH} day of the month.
 
-## Terms for US-FLOW-001
+## Terms for US-PRD-001
 - **Billing Type:** Usage Billing
 - **Description:** Compute Hours
 
@@ -32,13 +32,13 @@ The customer agrees to purchase sessions under the following tiered pricing mode
 
 | Tier | Hour Range   | Price per Hour | SKU ID         |
 |------|------------------|-------------------|----------------|
-| 1    | 1 – 8760          | $0.13            | US-FLOW-001 |
-| 2    | 8761 – 43800       | $0.08            | US-FLOW-001 |
-| 3    | 43801 and above   | $0.07            | US-FLOW-001 |
+| 1    |  1 – 8760          |  $0.13            | US-PRD-001 |
+| 2    |  8761 – 43800       |  $0.08            | US-PRD-001 |
+| 3    |  43801 and above   |  $0.07            | US-PRD-001 |
 
 > **Note:** This pricing is effective from ${TODAY} to ${TODAY_PLUS_1_YEAR_MINUS_ONE_DAY}.
 
-## Terms for US-FLEET-001
+## Terms for US-SEAT-001
 - **Billing Type:** Seats
 - **Description:** Flow Seats 
 
@@ -46,7 +46,7 @@ Buyer will be billed for 25 seats at **$25 per month** starting on the ${TODAYS_
 
 This pricing is effective from ${TODAY} to ${TODAY_PLUS_1_YEAR_MINUS_ONE_DAY}. Contract status is **active**.
 
-## Terms for US-LAKE-001
+## Terms for US-PRD2-001
 - **Billing Type:** Usage Billing
 - **Description:** Usage TiB Scan
 
@@ -54,9 +54,9 @@ The customer agrees to purchase sessions under the following tiered pricing mode
 
 | Tier | Scan Range   | Price per TiB | SKU ID         |
 |------|------------------|-------------------|----------------|
-| 1    | 0-1          | $0.00            | US-LAKE-001 |
-| 2    | 2-50       | $10.00            | US-LAKE-001 |
-| 3    | 51 and above   | $8.0            | US-LAKE-001 |
+| 1    |  0-1          |  $0.00            | US-PRD2-001 |
+| 2    |  2-50       |  $10.00            | US-PRD2-001 |
+| 3    |  51 and above   |  $8.0            | US-PRD2-001 |
 
 > **Note:** This pricing is effective from ${TODAY} to ${TODAY_PLUS_1_YEAR_MINUS_ONE_DAY}.
 

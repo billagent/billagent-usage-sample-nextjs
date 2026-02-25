@@ -1,6 +1,6 @@
 # Sample Addendum
 
-**promotional pricing adjustment** for US-FLOW-001. 
+**promotional pricing adjustment** for US-PRD-001. 
 
 ## New Pricing Structure
 
