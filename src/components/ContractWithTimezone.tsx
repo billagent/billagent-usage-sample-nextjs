@@ -1591,6 +1591,10 @@ const timezoneOptions = [
 interface ContractWithTimezoneProps {
   contractText: string;
   onFormattedTextChange?: (text: string) => void;
+  /** When provided, a template dropdown is shown in Contract Settings. Keys are option labels. */
+  contractTemplates?: Record<string, string>;
+  selectedTemplate?: string;
+  onTemplateChange?: (templateKey: string) => void;
 }
 
 // Helper function to get browser timezone and validate it exists in our options
@@ -1606,7 +1610,13 @@ function getBrowserTimezone(): string {
   }
 }
 
-export default function ContractWithTimezone({ contractText, onFormattedTextChange }: ContractWithTimezoneProps) {
+export default function ContractWithTimezone({
+  contractText,
+  onFormattedTextChange,
+  contractTemplates,
+  selectedTemplate,
+  onTemplateChange,
+}: ContractWithTimezoneProps) {
   const [selectedTimezone, setSelectedTimezone] = useState<string>(() => {
     // Initialize with browser timezone on client-side
     if (typeof window !== 'undefined') {
@@ -1618,6 +1628,13 @@ export default function ContractWithTimezone({ contractText, onFormattedTextChan
   const [buyer, setBuyer] = useState('BUYER');
   const [seller, setSeller] = useState('SELLER');
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const [startDate, setStartDate] = useState<Date>(() => new Date());
+
+  // Format Date for datetime-local input (local time)
+  const toDateTimeLocalValue = (d: Date) => {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
 
   // Update timezone on mount to ensure we have the browser timezone
   useEffect(() => {
@@ -1647,6 +1664,25 @@ export default function ContractWithTimezone({ contractText, onFormattedTextChan
         </button>
         {isAccordionOpen && (
           <div className="mt-2 space-y-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            {contractTemplates && onTemplateChange && selectedTemplate !== undefined && (
+              <div>
+                <label htmlFor="template-select" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Template
+                </label>
+                <select
+                  id="template-select"
+                  value={selectedTemplate}
+                  onChange={(e) => onTemplateChange(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                >
+                  {Object.keys(contractTemplates).map((key) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="seller-input" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -1676,6 +1712,18 @@ export default function ContractWithTimezone({ contractText, onFormattedTextChan
               </div>
             </div>
             <div>
+              <label htmlFor="start-date-input" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Start date
+              </label>
+              <input
+                id="start-date-input"
+                type="datetime-local"
+                value={toDateTimeLocalValue(startDate)}
+                onChange={(e) => setStartDate(e.target.value ? new Date(e.target.value) : new Date())}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
               <label htmlFor="timezone-select" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Timezone
               </label>
@@ -1700,6 +1748,7 @@ export default function ContractWithTimezone({ contractText, onFormattedTextChan
         timezone={selectedTimezone} 
         buyer={buyer} 
         seller={seller}
+        startDate={startDate}
         {...(onFormattedTextChange && { onFormattedTextChange })}
       />
     </div>

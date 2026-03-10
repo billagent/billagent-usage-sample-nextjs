@@ -1,14 +1,17 @@
-import ContractWithTimezone from "../../components/ContractWithTimezone";
-import CopyButton from "../../components/CopyButton";
 import PageStandard from "../../components/PageStandard";
-import ContractHeader from "./ContractHeader";
+import SampleContractClient from "./SampleContractClient";
 import fs from 'fs';
 import path from 'path';
 
 export default function SampleContractPage() {
-  // Read the contract markdown file
-  const contractPath = path.join(process.cwd(), 'src', 'component-data', 'Contract2.md');
-  const contractText = fs.readFileSync(contractPath, 'utf8');
+  const dataDir = path.join(process.cwd(), 'src', 'component-data');
+  const contract2Text = fs.readFileSync(path.join(dataDir, 'Contract2.md'), 'utf8');
+  const contractText = fs.readFileSync(path.join(dataDir, 'Contract.md'), 'utf8');
+
+  const contractTemplates: Record<string, string> = {
+    'Contract 2': contract2Text,
+    'Contract': contractText,
+  };
 
   return (
     <PageStandard>
@@ -28,13 +31,10 @@ export default function SampleContractPage() {
           After you create the contract, go to the <a className="text-blue-600" href="/usage-event-simulator">Usage Event Simulator</a> to send usage events to the contract.
         </div>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-          <ContractHeader 
+          <SampleContractClient
             description="This is a sample contract for a company like yours that is selling to large enterprise customers."
-            contractText={contractText}
+            contractTemplates={contractTemplates}
           />
-          <div className="p-6">
-            <ContractWithTimezone contractText={contractText} />
-          </div>
         </div>
       </div>
     </PageStandard>

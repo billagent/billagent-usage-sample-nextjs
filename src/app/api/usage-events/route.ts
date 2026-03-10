@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { V1IntakeEventRequest } from '@billagent/usage-events';
 import * as UsageEvents from '@billagent/usage-events';
 
 // Configure the BillAgent API client - you can set these using the .env file
@@ -7,37 +8,40 @@ const configuration = new UsageEvents.Configuration({
   apiKey: process.env.BILLAGENT_API_KEY || '',
 });
 
-// Create the API instance
+// New unified API (0.11.5+): one intake method for both milestone and usage events
 const usageEventsApi = new UsageEvents.UsageEventsApi(configuration);
+
+/** Our request body: milestone or usage event. */
+type MilestoneEventBody = {
+  event_type: 'milestone';
+  contract_uuid: string;
+  phase: string;
+  event_time?: string;
+};
+
+type UsageEventBody = {
+  event_type: 'usage';
+  contract_uuid: string;
+  sku_id: string;
+  count?: string;
+  event_time?: string;
+};
+
+type EventBody = MilestoneEventBody | UsageEventBody;
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { sku_id, contract_uuid, event_time, request_type, count } = body;
+    const body = (await request.json()) as EventBody & Record<string, unknown>;
 
-    // Validate required fields
-    if (!sku_id) {
-      return NextResponse.json(
-        { error: 'sku_id is required' },
-        { status: 400 }
-      );
-    }
+    const event_type = body.event_type ?? 'usage';
 
-    if (!contract_uuid) {
+    if (!body.contract_uuid) {
       return NextResponse.json(
         { error: 'contract_uuid is required' },
         { status: 400 }
       );
     }
 
-    if (!request_type) {
-      return NextResponse.json(
-        { error: 'request_type is required' },
-        { status: 400 }
-      );
-    }
-
-    // Check if API key is configured
     if (!process.env.BILLAGENT_API_KEY) {
       return NextResponse.json(
         { error: 'BillAgent API key not configured. Please set BILLAGENT_API_KEY environment variable.' },
@@ -45,62 +49,99 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare the usage event request
-    const usageEventRequest: UsageEvents.V1IntakeUsageEventRequest = {
-      sku_id,
-      contract_uuid,
-      event_time: event_time || new Date().toISOString(),
-      request_type,
-      count: count || '1'
-    };
+    const event_time = (body.event_time as string) || new Date().toISOString();
 
-    // Send the usage event to BillAgent
-    const response = await usageEventsApi.usageTermMatcherServiceIntakeUsageEvent(usageEventRequest);
+    let intakeRequest: V1IntakeEventRequest;
+
+    if (event_type === 'milestone') {
+      const phase = (body as MilestoneEventBody).phase;
+      if (!phase || typeof phase !== 'string') {
+        return NextResponse.json(
+          { error: 'phase is required for milestone events' },
+          { status: 400 }
+        );
+      }
+      intakeRequest = {
+        contract_uuid: body.contract_uuid,
+        event_time,
+        milestone_event_match: { phase_id: phase },
+      };
+    } else {
+      const usageBody = body as UsageEventBody;
+      const { sku_id, count } = usageBody;
+      if (!sku_id) {
+        return NextResponse.json(
+          { error: 'sku_id is required for usage events' },
+          { status: 400 }
+        );
+      }
+      intakeRequest = {
+        contract_uuid: usageBody.contract_uuid,
+        event_time,
+        usage_event_match: {
+          sku_id,
+          count: count || '1',
+        },
+      };
+    }
+
+    const response = await usageEventsApi.termMatcherServiceIntakeEvent(intakeRequest);
 
     return NextResponse.json({
       success: true,
-      message: 'Usage event processed successfully',
+      message: event_type === 'milestone' ? 'Milestone event processed successfully' : 'Usage event processed successfully',
       data: {
         term_matches: response.data.term_matches,
-        term_match_errors: response.data.term_match_errors
+        term_match_errors: response.data.term_match_errors,
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
   } catch (error) {
     console.error('Error processing usage event:', error);
-    
-    // Handle specific API errors
+
     if (error && typeof error === 'object' && 'response' in error) {
-      const axiosError = error as { response?: { status?: number; data?: { message?: string } }; message?: string };
-      const status = axiosError.response?.status;
-      
-      // Handle 403 Unauthorized specifically
+      const axiosError = error as {
+        response?: { status?: number; data?: unknown };
+        message?: string;
+      };
+      const status = axiosError.response?.status ?? 500;
+      const apiBody = axiosError.response?.data;
+
+      // Single-line summary for details; full API body for validation reasons etc.
+      const detailsSummary =
+        typeof apiBody === 'object' && apiBody !== null && 'message' in apiBody
+          ? String((apiBody as { message?: unknown }).message)
+          : axiosError.message || 'Unknown';
+
       if (status === 403) {
         return NextResponse.json(
-          { 
+          {
             error: 'Unauthorized',
-            details: 'Check your api key, this key is not valid or is not authorized to use the usage events api',
-            status: 403
+            details: detailsSummary,
+            status: 403,
+            api_response: apiBody,
           },
           { status: 403 }
         );
       }
-      
+
+      // Pass through full API error body so the client can show validation reasons
       return NextResponse.json(
-        { 
+        {
           error: 'BillAgent API error',
-          details: axiosError.response?.data?.message || axiosError.message,
-          status: status
+          details: detailsSummary,
+          status,
+          api_response: apiBody,
         },
-        { status: status || 500 }
+        { status }
       );
     }
 
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to process usage event',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

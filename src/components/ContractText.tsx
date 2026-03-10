@@ -12,6 +12,7 @@ interface ContractTextProps {
   timezone?: string;
   buyer?: string;
   seller?: string;
+  startDate?: Date;
   onFormattedTextChange?: (formattedText: string) => void;
 }
 
@@ -21,14 +22,15 @@ export default function ContractText({
   timezone = 'Etc/UTC',
   buyer = '',
   seller = '',
+  startDate,
   onFormattedTextChange
 }: ContractTextProps) {
   const [formattedText, setFormattedText] = useState('');
 
   useEffect(() => {
     const formatContractText = () => {
-      // Get current date/time in UTC
-      const now = new Date();
+      // Use start date from props or current date/time
+      const now = startDate ?? new Date();
       
       // Calculate future dates (these are Date objects representing the moment in time)
       const todayPlus1Month = addMonths(now, 1);
@@ -102,7 +104,7 @@ export default function ContractText({
     const interval = setInterval(formatContractText, 60000);
     
     return () => clearInterval(interval);
-  }, [contractText, timezone, buyer, seller]);
+  }, [contractText, timezone, buyer, seller, startDate]);
 
   return (
     <div className={`contract-text ${className}`}>
