@@ -4,11 +4,11 @@ import { useState } from 'react';
 import ContractWithTimezone from '../../components/ContractWithTimezone';
 import ContractHeader from './ContractHeader';
 
-const DEFAULT_TEMPLATE_KEY = 'Contract 2';
+const DEFAULT_TEMPLATE_KEY = 'Periodic Billing';
 
 interface SampleContractClientProps {
   description: string;
-  /** Map of template label -> markdown content. Should include "Contract 2" (default) and "Contract". */
+  /** Map of template label -> markdown content (e.g. Periodic Billing, Milestone Billing, Purchase Order). */
   contractTemplates: Record<string, string>;
 }
 

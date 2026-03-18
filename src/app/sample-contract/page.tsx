@@ -5,12 +5,14 @@ import path from 'path';
 
 export default function SampleContractPage() {
   const dataDir = path.join(process.cwd(), 'src', 'component-data');
-  const contract2Text = fs.readFileSync(path.join(dataDir, 'Contract2.md'), 'utf8');
-  const contractText = fs.readFileSync(path.join(dataDir, 'Contract.md'), 'utf8');
+  const periodicText = fs.readFileSync(path.join(dataDir, 'PeriodicBilling.md'), 'utf8');
+  const milestoneText = fs.readFileSync(path.join(dataDir, 'MilestoneBilling.md'), 'utf8');
+  const purchaseOrderText = fs.readFileSync(path.join(dataDir, 'PurchaseOrder.md'), 'utf8');
 
   const contractTemplates: Record<string, string> = {
-    'Contract 2': contract2Text,
-    'Contract': contractText,
+    'Periodic Billing': periodicText,
+    'Milestone Billing': milestoneText,
+    'Purchase Order': purchaseOrderText,
   };
 
   return (
