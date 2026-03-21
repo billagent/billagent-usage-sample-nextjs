@@ -7,7 +7,7 @@ import path from 'path';
 
 export default function SampleAddendumPage() {
   // Read the addendum markdown file
-  const addendumPath = path.join(process.cwd(), 'src', 'component-data', 'Addendum2.md');
+  const addendumPath = path.join(process.cwd(), 'src', 'component-data', 'PeriodicBillingAddenda.md');
   const addendumText = fs.readFileSync(addendumPath, 'utf8');
 
   return (
@@ -24,7 +24,7 @@ export default function SampleAddendumPage() {
           <div className="pt-4"><span className="text-green-600">Congratulations!</span>, you have now added an addendum to your contract! The contract now has additional terms that will be used for billing.</div>
         </div>
         <div className="flex gap-4 items-center flex-col sm:flex-row pb-4">
-           Go backto the <a className="text-blue-600" href="/usage-event-simulator">Usage Event Simulator</a> to send usage events to the appended contract.
+           Go back to the <a className="text-blue-600" href="/usage-event-simulator">Usage Event Simulator</a> to send usage events to the appended contract.
         </div>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
           <AddendumHeader 
