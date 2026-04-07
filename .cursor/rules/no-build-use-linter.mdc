@@ -1,0 +1,12 @@
+---
+description: Never run full builds to verify changes — use the linter instead
+alwaysApply: true
+---
+
+# No Builds — Use Linter for Verification
+
+Do NOT run `go build`, `npm run build`, `cargo build`, `mvn package`, or any other full project build to verify code changes.
+
+The user keeps a dev build running and rebuilds manually. Triggering a build wastes time and is disruptive.
+
+**Instead:** use `ReadLints` (the linter tool) to check for errors after edits.
