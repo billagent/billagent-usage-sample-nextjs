@@ -1,7 +1,7 @@
-# LAM Research Purchase Order # 450323430
+# Chip Research Purchase Order # 450323430
 ## Vendor Details
 
-RISSHI AMERICA DBA MARUYAMA CHILLERS
+RUBUST AMERICA DBA YOKO PARTS
 
 950 GILLMAN ST STE 200
 BERKELEY, CA 94710
@@ -10,7 +10,7 @@ __Vendor Number:__ 1018347
 
 __Delivery Address:__
 
-Lam Research Corporation OBO Lam Research International
+Chip Research Corporation OBO Chip Research International
 
 Foreign Trade Zone 45-H
 21000 SW 115th Ave
@@ -31,7 +31,7 @@ Do Not send Invoice - Payments are automatic
 
 |Material|Description|Qty|Unit|Price per Unit|Net
 |----|----|----|----|---|----|
-|778-186492-005|TCU, 10KW CHLR W HTR, 8GPM, WTR COOLED, SST  Mfg Name: Maruyama Chillers / eYR-8020sc (SB4)| 4|each| 19,500 |78,000
+|778-186492-005|TCU, 10KW CHLR W HTR, 8GPM, WTR COOLED, SST  Mfg Name: Maruyama Chillers / eYR-8020sc (SB4)| 4|each| 10,000 |78,000
 
 ----------------------------------------------------------------
 ## Item 00020 Terms
@@ -44,4 +44,4 @@ Do Not send Invoice - Payments are automatic
 
 |Material|Description|Qty|Unit|Price per Unit|Net
 |----|----|----|----|---|----|
-|778-186492-005|TCU, 10KW CHLR W HTR, 8GPM, WTR COOLED, SST  Mfg Name: Maruyama Chillers / eYR-8020sc (SB4)| 40|each| 19,500 |780,000
+|778-186492-005|TCU, 10KW CHLR W HTR, 8GPM, WTR COOLED, SST  Mfg Name: Maruyama Chillers / eYR-8020sc (SB4)| 40|each| 10,000 |400,000

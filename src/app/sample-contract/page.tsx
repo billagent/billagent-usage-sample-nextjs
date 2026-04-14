@@ -8,11 +8,13 @@ export default function SampleContractPage() {
   const periodicText = fs.readFileSync(path.join(dataDir, 'PeriodicBilling.md'), 'utf8');
   const milestoneText = fs.readFileSync(path.join(dataDir, 'MilestoneBilling.md'), 'utf8');
   const purchaseOrderText = fs.readFileSync(path.join(dataDir, 'PurchaseOrder.md'), 'utf8');
+  const medicalPoText = fs.readFileSync(path.join(dataDir, 'medical-po.md'), 'utf8');
 
   const contractTemplates: Record<string, string> = {
     'Periodic Billing': periodicText,
     'Milestone Billing': milestoneText,
     'Purchase Order': purchaseOrderText,
+    'Medical Purchase Order': medicalPoText,
   };
 
   return (
